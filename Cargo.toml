@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "exp",
+    "gen_test",
+    "iceblock",
+    "igloo_macro",
+    "mactest",
+]

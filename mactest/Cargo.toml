@@ -1,0 +1,8 @@
+[package]
+name = "mactest"
+version = "0.1.0"
+authors = ["Sam Sieber <swsieber@gmail.com>"]
+
+[dependencies]
+iceblock = { path = "../iceblock" }
+igloo_macro = { path = "../igloo_macro" }
