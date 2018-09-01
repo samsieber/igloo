@@ -7,21 +7,15 @@
 // <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
-
-macro_rules! macro_with_error {
-    ( ) => {
-        println!("{"); //~ ERROR invalid
-    };
-}
-
-fn foo() {
-
-}
+#[macro_use]
+extern crate iceblock_jade;
 
 fn main() {
-  macro_with_error!();
-  //^ In case of a local macro we want the error to be matched in the macro definition, not here
-
-  println!("}"); //~ ERROR invalid
-  //^ In case of an external macro we want the error to be matched here
+  let t = jade!( //~ ERROR Wrapper
+        div [a="testing a".to_string(), b="another!".to_string(), c=>"Actually a Some value".to_string(), d=>11,]
+        (
+          div[a="2".to_string(), b="2".to_string(),]
+          div[a="2".to_string(), b="2".to_string(),]
+        )
+    );
 }

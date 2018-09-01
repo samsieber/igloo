@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "exp",
+    "iceblock-jade",
     "gen_test",
     "iceblock",
     "igloo_macro",

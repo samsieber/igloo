@@ -8,20 +8,26 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 #[macro_use]
-extern crate jade_macro;
+extern crate iceblock_jade;
 
-struct Builder {
-}
-struct div {
-}
-struct Div {
-}
-struct DivBuilder{
+struct Builder {}
+struct div {}
+
+#[derive(PartialEq, Eq, Debug)]
+struct Div {}
+struct plain {}
+
+#[derive(PartialEq, Eq, Debug)]
+struct Plain {}
+struct DivBuilder {
   reqs: div,
   _children: Vec<Node>,
 }
+struct PlainBuilder {}
+#[derive(PartialEq, Eq, Debug)]
 enum Node {
-  Div(Div, Vec<Node>),
+  Div(Div, Box<Node>),
+  Plain(Plain),
 }
 impl Builder {
   fn div(reqs: div) -> DivBuilder {
@@ -30,23 +36,32 @@ impl Builder {
       _children: vec!(),
     }
   }
+  fn plain(reqs: plain) -> PlainBuilder {
+    PlainBuilder {}
+  }
 }
 impl DivBuilder {
-  fn add_child(&mut self, node: Node) {
+  fn set_child(&mut self, node: Node) {
     self._children.push(node);
   }
-  fn to_node(self) -> Node {
-    Node::Div(Div{}, self._children)
+  fn to_node(mut self) -> Node {
+    Node::Div(Div{}, Box::new(self._children.remove(0)))
+  }
+}
+impl PlainBuilder {
+  fn to_node(mut self) -> Node {
+    Node::Plain(Plain{})
   }
 }
 
 
 fn main() {
   let t = jade!(
-        div[]
-        {
-          div[]
-          div[]
-        }
+      div[](plain[])
+//        div[]
+//        (
+//          div[]
+//        )
     );
+  assert_eq!(t, Node::Div(Div{}, Box::new(Node::Plain(Plain{}))));
 }

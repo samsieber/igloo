@@ -1,5 +1,5 @@
 [package]
-name = "exp"
+name = "iceblock-jade"
 version = "0.1.0"
 authors = ["Sam Sieber <swsieber@gmail.com>"]
 
@@ -7,3 +7,6 @@ authors = ["Sam Sieber <swsieber@gmail.com>"]
 iceblock = { path = "../iceblock" }
 igloo_macro = { path = "../igloo_macro" }
 gen_test = { path = "../gen_test" }
+
+[dev-dependencies]
+compiletest_rs = "*"

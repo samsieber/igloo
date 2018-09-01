@@ -7,37 +7,29 @@
 // <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
-#[macro_use]
-extern crate jade_macro;
+#![feature(trace_macros)]
 
-// Called by macro
+#[macro_use]
+extern crate iceblock_jade;
+
 struct Builder {
 }
-// Called by macro
 struct div {
 }
+#[derive(PartialEq, Eq, Debug)]
 struct Div {
 }
-struct Cust {
-
-}
-// This could be named anything really...
 struct DivBuilder{
   reqs: div,
   _children: Vec<Node>,
 }
+
+#[derive(PartialEq, Eq, Debug)]
 enum Node {
   Div(Div, Vec<Node>),
 }
 impl Builder {
-  // Called by macro
   fn div(reqs: div) -> DivBuilder {
-    DivBuilder {
-      reqs,
-      _children: vec!(),
-    }
-  }
-  fn custom(reqs: div) -> DivBuilder {
     DivBuilder {
       reqs,
       _children: vec!(),
@@ -45,7 +37,6 @@ impl Builder {
   }
 }
 impl DivBuilder {
-  // Called by macro -
   fn add_child(&mut self, node: Node) {
     self._children.push(node);
   }
@@ -56,6 +47,7 @@ impl DivBuilder {
 
 
 fn main() {
+  trace_macros!(true);
   let t = jade!(
         div[]
         {
@@ -63,4 +55,6 @@ fn main() {
           div[]
         }
     );
+  trace_macros!(false);
+  assert_eq!(t, Node::Div(Div{}, vec!(Node::Div(Div{}, vec!()), Node::Div(Div{}, vec!()))))
 }
